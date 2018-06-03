@@ -1,0 +1,6 @@
+[package]
+name = "photosynthesis"
+version = "0.1.0"
+authors = ["PontusLaestadius <pontus.laestadius@gmail.com>"]
+
+[dependencies]
