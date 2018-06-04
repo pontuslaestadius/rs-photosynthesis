@@ -31,9 +31,33 @@ impl Molecules {
     }
 }
 
+pub struct Recipe {
+    consumer: Vec<Molecules>,
+    producer: Vec<Molecules>,
+}
+
+impl Recipe {
+    pub fn new(consumer: Vec<Molecules>, producer: Vec<Molecules>) {
+        Recipe {
+            consumer,
+            producer,
+        }
+    }
+
+    pub fn can_consume(&self, list: &Vec<Molecules>) -> bool {
+        panic!("TODO");
+        false
+    }
+
+    pub fn consume(&self, list: &mut Vec<Molecules>) {
+        panic!("TODO")
+    }
+}
+
 pub struct MoleculeSet {
 	pub molecules: Vec<Molecules>,
     pub history: Vec<Vec<Molecules>>,
+    pub recipes: Vec<Recipe>,
 }
 
 impl MoleculeSet {
@@ -41,6 +65,7 @@ impl MoleculeSet {
 		MoleculeSet {
 			molecules,
             history: Vec::new(),
+            recipes: default_recipes(),
 		}
 	}
 
@@ -48,8 +73,8 @@ impl MoleculeSet {
 		self.molecules.contains(molecule)
 	}
 
+    /// Removes all instances of molecule.
     pub fn remove(&mut self, molecule: &Molecules) -> Option<Molecules> {
-
 
         self.molecules.retain(|m: &Molecules | m.get_mol() == molecule.get_mol());
         /*
@@ -80,7 +105,7 @@ impl MoleculeSet {
             self.molecules.push(oxygen);
         }
 
-        // TODO
+        panic!("TODO");
 
         Ok(())
     }
@@ -113,5 +138,12 @@ pub fn synthesize(molecules: Vec<Molecules>) -> MoleculeSet {
 	let mut set = MoleculeSet::new(molecules);
     set.synthesize();
     set
+}
+
+
+/// Returns a vector of all the recipes that the moleculeSet will use when
+/// conducting what ingredients, will produce what result.
+pub fn default_recipes() -> Vec<Recipe> {
+    panic!("TODO")
 }
 
