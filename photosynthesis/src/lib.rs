@@ -37,20 +37,26 @@ pub struct Recipe {
 }
 
 impl Recipe {
-    pub fn new(consumer: Vec<Molecules>, producer: Vec<Molecules>) {
+    pub fn new(consumer: Vec<Molecules>, producer: Vec<Molecules>) -> Recipe {
         Recipe {
             consumer,
             producer,
         }
     }
 
-    pub fn can_consume(&self, list: &Vec<Molecules>) -> bool {
-        panic!("TODO");
-        false
+    pub fn eval(&self, list: &Vec<Molecules>) -> bool {
+        for it in self.consumer.iter() {
+            if !list.contains(it) {
+                return false;
+            }
+        }
+        true
     }
 
     pub fn consume(&self, list: &mut Vec<Molecules>) {
-        panic!("TODO")
+        if self.eval(&list) {
+            list.extend(self.producer.iter().cloned());
+        }
     }
 }
 
@@ -75,38 +81,18 @@ impl MoleculeSet {
 
     /// Removes all instances of molecule.
     pub fn remove(&mut self, molecule: &Molecules) -> Option<Molecules> {
-
         self.molecules.retain(|m: &Molecules | m.get_mol() == molecule.get_mol());
-        /*
-        for (i, mol) in self.molecules.iter().enumerate() {
-            if mol.get_mol() == molecule.get_mol() {
-                return Some(self.molecules.remove(i));
-            }
-        }
-        */
         None
-
     }
 
     pub fn synthesize(&mut self) -> std::io::Result<()> {
         self.history.push(self.molecules.clone());
-
-        let co2 = Molecules::new(Molecule::CarbonDioxide, 6);
-        let water = Molecules::new(Molecule::Water, 6);
-
-        // Only works for best case scenario.
-        if self.contains(&co2) && self.contains(&water) {
-            self.remove(&co2);
-            self.remove(&water);
-
-            let glucose = Molecules::new(Molecule::Glucose, 1);
-            let oxygen = Molecules::new(Molecule::Oxygen, 6);
-            self.molecules.push(glucose);
-            self.molecules.push(oxygen);
+        for rec in self.recipes.iter() {
+            if rec.eval(&self.molecules) {
+                rec.consume(&mut self.molecules);
+                break;
+            }
         }
-
-        panic!("TODO");
-
         Ok(())
     }
 
@@ -143,7 +129,23 @@ pub fn synthesize(molecules: Vec<Molecules>) -> MoleculeSet {
 
 /// Returns a vector of all the recipes that the moleculeSet will use when
 /// conducting what ingredients, will produce what result.
+///
+/// This is suppose to be en example, and should be extended with your own
+/// recipes.
 pub fn default_recipes() -> Vec<Recipe> {
-    panic!("TODO")
+    // Basic photosynthesis.
+
+    vec!(
+        Recipe::new(
+            vec!(
+                Molecules::new(Molecule::CarbonDioxide, 6),
+                Molecules::new(Molecule::CarbonDioxide, 6)
+            ),
+            vec!(
+                Molecules::new(Molecule::Glucose, 1),
+                Molecules::new(Molecule::Oxygen, 6)
+            )
+        )
+    )
 }
 
