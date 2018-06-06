@@ -122,7 +122,7 @@ impl MoleculeSet {
 /// ```
 pub fn synthesize(molecules: Vec<Molecules>) -> MoleculeSet {
 	let mut set = MoleculeSet::new(molecules);
-    set.synthesize();
+    let _ = set.synthesize();
     set
 }
 
