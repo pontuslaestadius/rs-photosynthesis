@@ -2,5 +2,12 @@
 name = "photosynthesis"
 version = "0.1.0"
 authors = ["PontusLaestadius <pontus.laestadius@gmail.com>"]
+include = ["src/**/*", "Cargo.toml"]
+description = "A rust implementation of Photosynthesis"
+repository = "https://github.com/pontuslaestadius/rs-photosynthesis"
+keywords = ["photosynthesis", "implementation"]
+categories = [simulation"]
+license = "GPL-3.0"
+
 
 [dependencies]
