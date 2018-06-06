@@ -6,7 +6,7 @@ include = ["src/**/*", "Cargo.toml"]
 description = "A rust implementation of Photosynthesis"
 repository = "https://github.com/pontuslaestadius/rs-photosynthesis"
 keywords = ["photosynthesis", "implementation"]
-categories = [simulation"]
+categories = ["simulation"]
 license = "GPL-3.0"
 
 
